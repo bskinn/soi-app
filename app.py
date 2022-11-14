@@ -55,10 +55,12 @@ app.layout = dhtml.Div(
 @app.callback(
     dash.Output(RESULT_DISPLAY, "children"),
     dash.Input(BTN_SEARCH, "n_clicks"),
+    dash.Input(INPUT_URL, "n_submit"),
+    dash.Input(INPUT_SEARCH, "n_submit"),
     dash.State(INPUT_URL, "value"),
     dash.State(INPUT_SEARCH, "value"),
 )
-def run_suggest(n_clicks, url_value, search_value):
+def run_suggest(n_clicks, n_submit_url, n_submit_search, url_value, search_value):
     result = sp.run(
         ["sphobjinv", "suggest", "-uas", str(url_value), str(search_value)],
         capture_output=True,
