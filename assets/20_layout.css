@@ -1,0 +1,13 @@
+body
+{
+    margin: 0px 114px;
+    padding: 10px 14px;
+    max-width: 1000px;
+}
+
+@media (max-width: 979px) {
+    body
+    {
+        margin: 0px 20px;
+    }
+}

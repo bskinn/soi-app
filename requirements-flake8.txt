@@ -1,0 +1,16 @@
+colorama
+flake8>=3.7,<5
+flake8-2020
+flake8-absolute-import
+flake8-black
+flake8-broken-line
+flake8-bugbear
+flake8-builtins
+flake8-clean-block
+flake8-colors
+flake8-comprehensions
+flake8-eradicate
+flake8-implicit-str-concat
+flake8-import-order
+flake8-pie
+pep8-naming

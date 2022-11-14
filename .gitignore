@@ -1,0 +1,10 @@
+# Environment folders
+env/
+.env/
+
+# Python build cache
+*.pyc
+__pycache__/
+
+# Local app instance
+instance/

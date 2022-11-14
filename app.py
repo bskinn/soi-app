@@ -1,0 +1,55 @@
+import subprocess as sp
+
+import dash
+import dash_bootstrap_components as dbc
+import dash_bootstrap_templates as dbt
+import sphobjinv as soi
+from dash import Dash, dcc, html as dhtml
+
+dbt.load_figure_template("cosmo")
+
+app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
+
+INPUT_URL = "input-url"
+INPUT_SEARCH = "input-search"
+
+BTN_SEARCH = "button-search"
+
+RESULT_DISPLAY = "result-display"
+
+def divver(iterable):
+    return [dhtml.Div(item or dhtml.Br()) for item in iterable]
+
+app.layout = dhtml.Div(
+    [
+        dhtml.Div([
+            dhtml.Span("URL"),
+            dcc.Input(type="url", size="80", id=INPUT_URL),
+        ]),
+        dhtml.Div([
+            dhtml.Span("Search Term"),
+            dcc.Input(type="text", size="45", id=INPUT_SEARCH),
+        ]),
+        dhtml.Button("Search", id=BTN_SEARCH),
+        dhtml.Div("Initial content...", id=RESULT_DISPLAY, style={"font-family": "monospace", "font-size": "smaller"})
+    ],
+)
+
+@app.callback(
+    dash.Output(RESULT_DISPLAY, "children"),
+    dash.Input(BTN_SEARCH, "n_clicks"),
+    dash.State(INPUT_URL, "value"),
+    dash.State(INPUT_SEARCH, "value")
+)
+def run_suggest(n_clicks, url_value, search_value):
+    result = sp.run(["sphobjinv", "suggest", "-uas", str(url_value), str(search_value)],
+                    capture_output=True, text=True)
+    
+    if result.returncode > 1:
+        return "It errored"
+    
+    return [dhtml.Div(divver(res.split("\n"))) for res in (result.stderr, result.stdout)]
+
+
+if __name__ == "__main__":
+    app.run_server(debug=True)
