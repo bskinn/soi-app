@@ -25,6 +25,8 @@ INTERVAL_STATS = "interval-stats"
 
 proc = None
 buf_stdout = ""
+suggest_running = False
+halt_loop = True
 
 
 def code_ify(text):
@@ -47,7 +49,7 @@ app.layout = dhtml.Div(
         ),
         dhtml.Button("Search", id=BTN_SEARCH),
         dcc.Interval(id=INTERVAL_OUTPUT_TIMER, interval=300, disabled=True),
-        dhtml.Div("", id="interval-stats"),
+        dhtml.Div("", id=INTERVAL_STATS),
         dcc.Markdown(
             code_ify("Awaiting input..."),
             id=RESULT_DISPLAY,
@@ -82,9 +84,13 @@ def run_suggest(
     search_value,
     result_text,
 ):
-    global proc, buf_stdout
+    global proc, buf_stdout, suggest_running, halt_loop
 
-    if proc is None:
+    if halt_loop:
+        halt_loop = False
+        return (code_ify("Awaiting search..."), True, "Halted")
+
+    if not suggest_running:
         # suggest operation is not running, so we should start it
         if url_value is None or search_value is None:
             # Don't start the search process if either input is missing; disabled=True
@@ -97,23 +103,36 @@ def run_suggest(
             stderr=sp.STDOUT,
             text=True,
         )
+        suggest_running = True
+        halt_loop = False
 
         # Turn on the Interval; set disabled to False
-        return (code_ify(buf_stdout), False, f"On ({n_timer_intervals})")
+        return (
+            code_ify(buf_stdout + proc.stdout.read()),
+            False,
+            f"On ({n_timer_intervals})",
+        )
 
     else:
         # suggest operation IS running, which means we should update it
         rc = proc.poll()
         # buf_stdout += data
-        
+
         if rc:
-            proc = None
+            suggest_running = False
+            halt_loop = True
             if rc != 0:
-                return (code_ify(f"{buf_stdout}\n\nIt errored ({rc=})"), True, f"Off ({n_timer_intervals})")
+                return (
+                    code_ify(f"{buf_stdout}\n\nIt errored ({rc=})"),
+                    True,
+                    f"Off ({n_timer_intervals})",
+                )
             else:
                 return (code_ify(buf_stdout), True, f"Off ({n_timer_intervals})")
         else:
-            buf_stdout = proc.stdout.read()
+            suggest_running = True
+            halt_loop = False
+            buf_stdout += proc.communicate()[0]
             return (code_ify(buf_stdout), False, f"On ({n_timer_intervals})")
 
         # if url_value and search_value:
