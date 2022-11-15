@@ -1,8 +1,10 @@
 body
 {
+    font-size: 14pt;
     margin: 0px 114px;
-    padding: 10px 14px;
+    padding: 0.2em 3em;
     max-width: 1000px;
+
 }
 
 @media (max-width: 979px) {
