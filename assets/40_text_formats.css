@@ -1,0 +1,17 @@
+h1 {
+    padding: 1em 0;
+}
+
+h1 img {
+    vertical-align: middle;
+    padding: 0 15px;
+    height: 120px;
+}
+
+span.input-label {
+    font-weight: bolder;
+}
+
+code {
+    color: #7ebbff;
+}

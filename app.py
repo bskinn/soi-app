@@ -25,13 +25,28 @@ app.layout = dhtml.Div(
     [
         dhtml.Div(
             [
-                dhtml.Span("URL"),
+                dhtml.H1(
+                    [
+                        dhtml.Img(src="assets/images/soi-logo.png"),
+                        dhtml.Code("sphobjinv suggest"),
+                        " as a Service",
+                        dhtml.Img(src="assets/images/soi-logo.png"),
+                    ]
+                ),
+            ]
+        ),
+        dhtml.Div(
+            "Now bringing the sphobjinv CLI to the convenience of a web browser!"
+        ),
+        dhtml.Div(
+            [
+                dhtml.Span(className="input-label", children="URL:"),
                 dcc.Input(type="url", size="80", id=INPUT_URL),
             ]
         ),
         dhtml.Div(
             [
-                dhtml.Span("Search Term"),
+                dhtml.Span(className="input-label", children="Search Term:"),
                 dcc.Input(type="text", size="45", id=INPUT_SEARCH),
             ]
         ),
@@ -67,7 +82,13 @@ app.layout = dhtml.Div(
 )
 def run_suggest(n_clicks, n_submit_url, n_submit_search, url_value, search_value):
     result = sp.run(
-        ["sphobjinv", "suggest", "-uas", str(url_value), str(search_value)],
+        [
+            "sphobjinv",
+            "suggest",
+            "-uas",
+            str(url_value),
+            str(search_value),
+        ],
         capture_output=True,
         text=True,
     )
