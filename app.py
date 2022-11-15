@@ -18,10 +18,7 @@ INPUT_SEARCH = "input-search"
 BTN_SEARCH = "button-search"
 
 RESULT_DISPLAY = "result-display"
-
-
-def divver(iterable):
-    return list(iterable)
+SPAN_SPINNER = "span-spinner"
 
 
 app.layout = dhtml.Div(
@@ -38,7 +35,14 @@ app.layout = dhtml.Div(
                 dcc.Input(type="text", size="45", id=INPUT_SEARCH),
             ]
         ),
-        dhtml.Button("Search", id=BTN_SEARCH),
+        dhtml.Div(
+            [
+                dhtml.Button("Search", id=BTN_SEARCH),
+                dcc.Loading(
+                    type="circle", children=dhtml.Span(id=SPAN_SPINNER, children=" ")
+                ),
+            ],
+        ),
         dcc.Markdown(
             "```\nLoading...\n```",
             id=RESULT_DISPLAY,
@@ -54,6 +58,7 @@ app.layout = dhtml.Div(
 
 @app.callback(
     dash.Output(RESULT_DISPLAY, "children"),
+    dash.Output(SPAN_SPINNER, "children"),
     dash.Input(BTN_SEARCH, "n_clicks"),
     dash.Input(INPUT_URL, "n_submit"),
     dash.Input(INPUT_SEARCH, "n_submit"),
@@ -68,12 +73,12 @@ def run_suggest(n_clicks, n_submit_url, n_submit_search, url_value, search_value
     )
 
     if result.returncode > 1:
-        return "It errored"
+        return ("It errored", " ")
 
     if url_value and search_value:
-        return f"```none\n{result.stderr}\n{result.stdout}\n```"
+        return (f"```none\n{result.stderr}\n{result.stdout}\n```", " ")
     else:
-        return f"```none\nEnter search values\n```"
+        return (f"```none\nEnter search values\n```", " ")
 
 
 if __name__ == "__main__":
