@@ -1,0 +1,34 @@
+h1 {
+    padding: 1em 0;
+    text-align: center;
+}
+
+h2 {
+    font-size: 1.3em;
+    font-style: italic;
+    padding: 0.75em 0.75em;
+    text-align: center;
+}
+
+h1 img {
+    vertical-align: middle;
+    padding: 0 15px;
+    height: 150px;
+}
+
+.input-label {
+    font-weight: bolder;
+    margin: 0 0.3em;
+}
+
+code {
+    color: #7ebbff;
+}
+
+div.sphobjinv-output {
+    margin: 20px 0 50px;
+}
+
+code.language-none {
+    font-size: smaller;
+}

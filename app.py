@@ -4,9 +4,8 @@ import subprocess as sp
 import dash
 import dash_bootstrap_components as dbc
 import dash_bootstrap_templates as dbt
-
-# import sphobjinv as soi
 from dash import Dash, dcc, html as dhtml
+
 
 dbt.load_figure_template("cosmo")
 
@@ -14,6 +13,11 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
 INPUT_URL = "input-url"
 INPUT_SEARCH = "input-search"
+INPUT_THRESHOLD = "input-threshold"
+
+CHKLIST_INDEX_SCORE = "checklist-index-score"
+INCLUDE_SCORE = "Include Score"
+INCLUDE_INDEX = "Include Index"
 
 BTN_SEARCH = "button-search"
 
@@ -25,14 +29,61 @@ app.layout = dhtml.Div(
     [
         dhtml.Div(
             [
-                dhtml.Span("URL"),
+                dhtml.H1(
+                    [
+                        dhtml.Img(src="assets/images/soi-logo.png"),
+                        dhtml.Code("sphobjinv suggest"),
+                        " as a Service",
+                        dhtml.Img(src="assets/images/soi-logo.png"),
+                    ]
+                ),
+            ]
+        ),
+        dhtml.H2(
+            [
+                "Bringing the ",
+                dhtml.Code("sphobjinv suggest"),
+                " CLI to the the browser",
+            ]
+        ),
+        dhtml.Div(
+            "Paste any URL from a Sphinx docset, enter the desired search term, select your options, and go!"
+        ),
+        dhtml.Br(),
+        dhtml.Div(
+            [
+                dhtml.Span(className="input-label", children="URL:"),
                 dcc.Input(type="url", size="80", id=INPUT_URL),
             ]
         ),
         dhtml.Div(
             [
-                dhtml.Span("Search Term"),
+                dhtml.Span(className="input-label", children="Search Term:"),
                 dcc.Input(type="text", size="45", id=INPUT_SEARCH),
+            ]
+        ),
+        dhtml.Div(
+            dcc.Checklist(
+                id=CHKLIST_INDEX_SCORE,
+                options=[INCLUDE_SCORE, INCLUDE_INDEX],
+                value=[INCLUDE_SCORE],
+                inline=True,
+                labelClassName="input-label",
+            )
+        ),
+        dhtml.Div(
+            [
+                dcc.Input(
+                    type="number",
+                    size="2",
+                    id=INPUT_THRESHOLD,
+                    required=True,
+                    debounce=True,
+                    value=75,
+                    min=0,
+                    max=100,
+                ),
+                dhtml.Span(className="input-label", children="Score Threshold"),
             ]
         ),
         dhtml.Div(
@@ -44,13 +95,9 @@ app.layout = dhtml.Div(
             ],
         ),
         dcc.Markdown(
-            "```\nLoading...\n```",
+            children="```\nLoading...\n```",
             id=RESULT_DISPLAY,
-            style={
-                "font-family": "monospace",
-                "font-size": "smaller",
-                "margin-top": "20px",
-            },
+            className="sphobjinv-output",
         ),
     ],
 )
@@ -64,10 +111,36 @@ app.layout = dhtml.Div(
     dash.Input(INPUT_SEARCH, "n_submit"),
     dash.State(INPUT_URL, "value"),
     dash.State(INPUT_SEARCH, "value"),
+    dash.State(INPUT_THRESHOLD, "value"),
+    dash.State(CHKLIST_INDEX_SCORE, "value"),
 )
-def run_suggest(n_clicks, n_submit_url, n_submit_search, url_value, search_value):
+def run_suggest(
+    n_clicks,
+    n_submit_url,
+    n_submit_search,
+    url_value,
+    search_value,
+    threshold_value,
+    chklist_values,
+):
+    option_str = "-ua"
+
+    if INCLUDE_SCORE in chklist_values:
+        option_str += "s"
+
+    if INCLUDE_INDEX in chklist_values:
+        option_str += "i"
+
+    option_str += f"t{threshold_value}"
+
     result = sp.run(
-        ["sphobjinv", "suggest", "-uas", str(url_value), str(search_value)],
+        [
+            "sphobjinv",
+            "suggest",
+            option_str,
+            str(url_value),
+            str(search_value),
+        ],
         capture_output=True,
         text=True,
     )
@@ -78,7 +151,7 @@ def run_suggest(n_clicks, n_submit_url, n_submit_search, url_value, search_value
     if url_value and search_value:
         return (f"```none\n{result.stderr}\n{result.stdout}\n```", " ")
     else:
-        return (f"```none\nEnter search values\n```", " ")
+        return (f"```none\n(Enter search values)\n```", " ")
 
 
 if __name__ == "__main__":
