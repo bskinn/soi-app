@@ -13,6 +13,7 @@ app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
 
 INPUT_URL = "input-url"
 INPUT_SEARCH = "input-search"
+INPUT_THRESHOLD = "input-threshold"
 
 CHKLIST_INDEX_SCORE = "checklist-index-score"
 INCLUDE_SCORE = "Include Score"
@@ -42,7 +43,7 @@ app.layout = dhtml.Div(
             [
                 "Bringing the ",
                 dhtml.Code("sphobjinv suggest"),
-                " CLI to the the browser!",
+                " CLI to the the browser",
             ]
         ),
         dhtml.Div(
@@ -72,6 +73,21 @@ app.layout = dhtml.Div(
         ),
         dhtml.Div(
             [
+                dcc.Input(
+                    type="number",
+                    size="2",
+                    id=INPUT_THRESHOLD,
+                    required=True,
+                    debounce=True,
+                    value=75,
+                    min=0,
+                    max=100,
+                ),
+                dhtml.Span(className="input-label", children="Score Threshold"),
+            ]
+        ),
+        dhtml.Div(
+            [
                 dhtml.Button("Search", id=BTN_SEARCH),
                 dcc.Loading(
                     type="circle", children=dhtml.Span(id=SPAN_SPINNER, children=" ")
@@ -95,10 +111,17 @@ app.layout = dhtml.Div(
     dash.Input(INPUT_SEARCH, "n_submit"),
     dash.State(INPUT_URL, "value"),
     dash.State(INPUT_SEARCH, "value"),
+    dash.State(INPUT_THRESHOLD, "value"),
     dash.State(CHKLIST_INDEX_SCORE, "value"),
 )
 def run_suggest(
-    n_clicks, n_submit_url, n_submit_search, url_value, search_value, chklist_values
+    n_clicks,
+    n_submit_url,
+    n_submit_search,
+    url_value,
+    search_value,
+    threshold_value,
+    chklist_values,
 ):
     option_str = "-ua"
 
@@ -107,6 +130,8 @@ def run_suggest(
 
     if INCLUDE_INDEX in chklist_values:
         option_str += "i"
+
+    option_str += f"t{threshold_value}"
 
     result = sp.run(
         [
