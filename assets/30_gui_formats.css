@@ -13,3 +13,8 @@ input
     padding-left: 8px;
     margin: 8px 4px;
 }
+
+div.sphobjinv-output {
+    background-color: #f2f2f2;
+    padding: 0.5em;
+}
