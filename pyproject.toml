@@ -9,7 +9,7 @@ requires = [
 line-length = 88
 include = '''
 (
-    ^/app[.]py
+    ^/soi-app[.]py
 )
 '''
 exclude = '''

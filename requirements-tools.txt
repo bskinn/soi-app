@@ -2,3 +2,5 @@ black
 ipython
 pre-commit
 tox
+
+-r requirements-flake8.txt
