@@ -197,7 +197,7 @@ def run_suggest(
     if url_value and search_value:
         return (f"```none\n{result.stderr}\n{result.stdout}\n```", " ")
     else:
-        return (f"```none\n(Enter search values)\n```", " ")
+        return ("```none\n(Enter search values)\n```", " ")
 
 
 if __name__ == "__main__":
