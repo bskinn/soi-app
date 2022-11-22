@@ -1,15 +1,19 @@
-import itertools as itt
+import re
 import subprocess as sp
 
 import dash
 import dash_bootstrap_components as dbc
 import dash_bootstrap_templates as dbt
 from dash import Dash, dcc, html as dhtml
+from setuptools_scm import get_version
 
 
 dbt.load_figure_template("cosmo")
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
+
+GH_URL_TEMPLATE = "https://github.com/bskinn/soi-app/tree/{}"
+VERSION = get_version(local_scheme="node-and-timestamp")
 
 INPUT_URL = "input-url"
 INPUT_SEARCH = "input-search"
@@ -23,6 +27,23 @@ BTN_SEARCH = "button-search"
 
 RESULT_DISPLAY = "result-display"
 SPAN_SPINNER = "span-spinner"
+
+
+def get_source_link():
+    """Construct the correct dhtml.A for the link into the source."""
+    dirty = re.search("d[0-9]{8}", VERSION) is not None
+
+    if "+g" in VERSION:
+        ref_id = re.search("(?<=[+]g)[0-9a-f]+(?=($|[.d]))", VERSION)[0]
+    else:
+        ref_id = re.search("^.+(?=($|[+]d))", VERSION)[0]
+
+    return dhtml.Span(
+        [
+            dhtml.A(ref_id, href=GH_URL_TEMPLATE.format(ref_id)),
+            " (modified)" if dirty else "",
+        ]
+    )
 
 
 app.layout = dhtml.Div(
@@ -47,7 +68,8 @@ app.layout = dhtml.Div(
             ]
         ),
         dhtml.Div(
-            "Paste any URL from a Sphinx docset, enter the desired search term, select your options, and go!"
+            "Paste any URL from a Sphinx docset, enter the desired search term, "
+            "select your options, and go!"
         ),
         dhtml.Br(),
         dhtml.Div(
@@ -98,6 +120,30 @@ app.layout = dhtml.Div(
             children="```\nLoading...\n```",
             id=RESULT_DISPLAY,
             className="sphobjinv-output",
+        ),
+        dhtml.Div(
+            className="footer",
+            children=[
+                dhtml.Div(
+                    [
+                        (
+                            "© Copyright 2022 Brian Skinn. "
+                            "Site content is licensed under "
+                        ),
+                        dhtml.A(
+                            "CC BY 4.0",
+                            href="http://creativecommons.org/licenses/by/4.0/",
+                        ),
+                        ".",
+                    ]
+                ),
+                dhtml.Div(
+                    [
+                        f"Version {VERSION}, source at ",
+                        get_source_link(),
+                    ]
+                ),
+            ],
         ),
     ],
 )

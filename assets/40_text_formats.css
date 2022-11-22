@@ -32,3 +32,8 @@ div.sphobjinv-output {
 code.language-none {
     font-size: smaller;
 }
+
+.footer {
+    font-size: 70%;
+    color: #888;
+}
