@@ -90,11 +90,11 @@ app.layout = dhtml.Div(
                     href="https://github.com/bskinn/soi-app/issues",
                     target="_blank",
                 ),
-                ", or on Twitter (",
+                ", on Twitter (",
                 dhtml.A(
                     "@btskinn", href="https://twitter.com/btskinn", target="_blank"
                 ),
-                ") or Mastodon (",
+                "), or on Mastodon (",
                 dhtml.A(
                     "@btskinn@fosstodon.org",
                     href="https://fosstodon.org/@btskinn",
