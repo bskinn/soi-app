@@ -76,6 +76,28 @@ app.layout = dhtml.Div(
             "Paste any URL from a Sphinx docset, enter the desired search term, "
             "select your options, and go!"
         ),
+        dhtml.Div(
+            children=(
+                "Please report any problems (or delight!) on the ",
+                dhtml.A(
+                    "issue tracker",
+                    href="https://github.com/bskinn/soi-app/issues",
+                    target="_blank",
+                ),
+                ", or on Twitter (",
+                dhtml.A(
+                    "@btskinn", href="https://twitter.com/btskinn", target="_blank"
+                ),
+                ") or Mastodon (",
+                dhtml.A(
+                    "@btskinn@fosstodon.org",
+                    href="https://fosstodon.org/@btskinn",
+                    target="_blank",
+                ),
+                ").",
+            ),
+            className="report-problems",
+        ),
         dhtml.Br(),
         dhtml.Div(
             [

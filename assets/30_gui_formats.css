@@ -18,3 +18,8 @@ div.sphobjinv-output {
     background-color: #f2f2f2;
     padding: 0.5em;
 }
+
+div.report-problems {
+    margin: 1.5em 1em 0;
+    font-size: 75%;
+}
