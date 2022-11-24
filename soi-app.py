@@ -1,3 +1,4 @@
+import datetime
 import re
 import subprocess as sp
 
@@ -32,6 +33,10 @@ BTN_SEARCH = "button-search"
 
 RESULT_DISPLAY = "result-display"
 SPAN_SPINNER = "span-spinner"
+
+COPYRIGHT_YEARS = (
+    "2022" if (YEAR := datetime.datetime.now().year) == 2022 else f"2022-{YEAR}"
+)
 
 
 def get_source_link():
@@ -154,7 +159,7 @@ app.layout = dhtml.Div(
                 dhtml.Div(
                     [
                         (
-                            "© Copyright 2022 Brian Skinn. "
+                            f"© Copyright {COPYRIGHT_YEARS} Brian Skinn. "
                             "Site content is licensed under "
                         ),
                         dhtml.A(
