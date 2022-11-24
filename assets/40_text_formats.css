@@ -29,6 +29,11 @@ div.sphobjinv-output {
     margin: 20px 0 50px;
 }
 
+div.report-problems {
+    font-size: 75%;
+    font-style: italic;
+}
+
 code.language-none {
     font-size: smaller;
 }

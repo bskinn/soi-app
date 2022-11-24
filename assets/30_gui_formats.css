@@ -21,5 +21,8 @@ div.sphobjinv-output {
 
 div.report-problems {
     margin: 1.5em 1em 0;
-    font-size: 75%;
+}
+
+.footer {
+    line-height: 160%;
 }
