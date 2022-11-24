@@ -5,6 +5,7 @@ import subprocess as sp
 import dash
 import dash_bootstrap_components as dbc
 import dash_bootstrap_templates as dbt
+import sphobjinv as soi
 from dash import Dash, dcc, html as dhtml
 from setuptools_scm import get_version
 
@@ -173,6 +174,30 @@ app.layout = dhtml.Div(
                     [
                         f"Version {VERSION}, source at ",
                         get_source_link(),
+                        ".",
+                    ]
+                ),
+                dhtml.Div(
+                    [
+                        "Hosted on ",
+                        dhtml.A(
+                            "PythonAnywhere",
+                            href="https://www.pythonanywhere.com",
+                            target="_blank",
+                        ),
+                        " and built with ",
+                        dhtml.A(
+                            "Plotly Dash",
+                            href="https://plotly.com/dash/",
+                            target="_blank",
+                        ),
+                        f" v{dash.__version__} and ",
+                        dhtml.A(
+                            "sphobjinv",
+                            href="https://sphobjinv.readthedocs.io/en/stable",
+                            target="_blank",
+                        ),
+                        f" v{soi.__version__}.",
                     ]
                 ),
             ],
