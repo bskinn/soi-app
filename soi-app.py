@@ -10,7 +10,12 @@ from setuptools_scm import get_version
 
 dbt.load_figure_template("cosmo")
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
+app = Dash(
+    __name__,
+    title="sphobjinv suggest",
+    update_title="Searching...",
+    external_stylesheets=[dbc.themes.COSMO],
+)
 
 GH_URL_TEMPLATE = "https://github.com/bskinn/soi-app/tree/{}"
 VERSION = get_version(local_scheme="node-and-timestamp")
