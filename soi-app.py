@@ -1,16 +1,23 @@
+import datetime
 import re
 import subprocess as sp
 
 import dash
 import dash_bootstrap_components as dbc
 import dash_bootstrap_templates as dbt
+import sphobjinv as soi
 from dash import Dash, dcc, html as dhtml
 from setuptools_scm import get_version
 
 
 dbt.load_figure_template("cosmo")
 
-app = Dash(__name__, external_stylesheets=[dbc.themes.COSMO])
+app = Dash(
+    __name__,
+    title="sphobjinv suggest",
+    update_title="Searching...",
+    external_stylesheets=[dbc.themes.COSMO],
+)
 
 GH_URL_TEMPLATE = "https://github.com/bskinn/soi-app/tree/{}"
 VERSION = get_version(local_scheme="node-and-timestamp")
@@ -27,6 +34,10 @@ BTN_SEARCH = "button-search"
 
 RESULT_DISPLAY = "result-display"
 SPAN_SPINNER = "span-spinner"
+
+COPYRIGHT_YEARS = (
+    "2022" if (YEAR := datetime.datetime.now().year) == 2022 else f"2022-{YEAR}"
+)
 
 
 def get_source_link():
@@ -70,6 +81,28 @@ app.layout = dhtml.Div(
         dhtml.Div(
             "Paste any URL from a Sphinx docset, enter the desired search term, "
             "select your options, and go!"
+        ),
+        dhtml.Div(
+            children=(
+                "Please report any problems (or delight!) on the ",
+                dhtml.A(
+                    "issue tracker",
+                    href="https://github.com/bskinn/soi-app/issues",
+                    target="_blank",
+                ),
+                ", on Twitter (",
+                dhtml.A(
+                    "@btskinn", href="https://twitter.com/btskinn", target="_blank"
+                ),
+                "), or on Mastodon (",
+                dhtml.A(
+                    "@btskinn@fosstodon.org",
+                    href="https://fosstodon.org/@btskinn",
+                    target="_blank",
+                ),
+                ").",
+            ),
+            className="report-problems",
         ),
         dhtml.Br(),
         dhtml.Div(
@@ -127,7 +160,7 @@ app.layout = dhtml.Div(
                 dhtml.Div(
                     [
                         (
-                            "© Copyright 2022 Brian Skinn. "
+                            f"© Copyright {COPYRIGHT_YEARS} Brian Skinn. "
                             "Site content is licensed under "
                         ),
                         dhtml.A(
@@ -141,6 +174,30 @@ app.layout = dhtml.Div(
                     [
                         f"Version {VERSION}, source at ",
                         get_source_link(),
+                        ".",
+                    ]
+                ),
+                dhtml.Div(
+                    [
+                        "Hosted on ",
+                        dhtml.A(
+                            "PythonAnywhere",
+                            href="https://www.pythonanywhere.com",
+                            target="_blank",
+                        ),
+                        " and built with ",
+                        dhtml.A(
+                            "Plotly Dash",
+                            href="https://plotly.com/dash/",
+                            target="_blank",
+                        ),
+                        f" v{dash.__version__} and ",
+                        dhtml.A(
+                            "sphobjinv",
+                            href="https://sphobjinv.readthedocs.io/en/stable",
+                            target="_blank",
+                        ),
+                        f" v{soi.__version__}.",
                     ]
                 ),
             ],
