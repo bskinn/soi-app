@@ -28,6 +28,8 @@ BTN_SEARCH = "button-search"
 RESULT_DISPLAY = "result-display"
 SPAN_SPINNER = "span-spinner"
 
+DIV_CLIENTSIDE_OUTPUT = "clientside-output"
+
 
 def get_source_link():
     """Construct the correct dhtml.A for the link into the source."""
@@ -73,6 +75,10 @@ app.layout = dhtml.Div(
         ),
         dhtml.Br(),
         dhtml.Div(
+            "Starting Value",
+            id=DIV_CLIENTSIDE_OUTPUT,
+        ),
+        dhtml.Div(
             [
                 dhtml.Span(className="input-label", children="URL:"),
                 dcc.Input(type="url", size="80", id=INPUT_URL),
@@ -100,7 +106,7 @@ app.layout = dhtml.Div(
                     size="2",
                     id=INPUT_THRESHOLD,
                     required=True,
-                    debounce=True,
+                    debounce=False,
                     value=75,
                     min=0,
                     max=100,
@@ -146,6 +152,18 @@ app.layout = dhtml.Div(
             ],
         ),
     ],
+)
+
+
+app.clientside_callback(
+    """
+    function(threshVal, suggestVal) {
+        return addfunc(threshVal, suggestVal);
+    }
+    """,
+    dash.Output(DIV_CLIENTSIDE_OUTPUT, "children"),
+    dash.Input(INPUT_THRESHOLD, "value"),
+    dash.Input(INPUT_SEARCH, "value"),
 )
 
 
