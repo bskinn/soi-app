@@ -16,13 +16,17 @@ h1 img {
     height: 150px;
 }
 
+a {
+    color: #7ebbff;
+}
+
 .input-label {
     font-weight: bolder;
     margin: 0 0.3em;
 }
 
 code {
-    color: #7ebbff;
+    color: #2468b5;
 }
 
 div.sphobjinv-output {
