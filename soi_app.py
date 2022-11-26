@@ -72,15 +72,14 @@ def get_source_link():
     dirty = re.search("d[0-9]{8}", VERSION) is not None
     at_tag = re.search(r"[.]post", VERSION) is None
 
-    if "+g" in VERSION:
-        ref_id = re.search("(?<=[+]g)[0-9a-f]+(?=($|[.d]))", VERSION)[0]
+    if at_tag:
+        ref_id = "v" + re.search("^.+(?=($|[+]d))", VERSION)[0]
     else:
-        ref_id = re.search("^.+(?=($|[+]d))", VERSION)[0]
+        ref_id = re.search("(?<=[+]g)[0-9a-f]+(?=($|[.]d))", VERSION)[0]
 
     return dhtml.Span(
         [
             dhtml.A(
-                ["v" if at_tag else "", ref_id],
                 href=GH_URL_TEMPLATE.format(ref_id),
                 target="_blank",
             ),
