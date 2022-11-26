@@ -163,17 +163,47 @@ app.layout = dhtml.Div(
         ),
         dhtml.Div(
             [
-                dcc.Input(
-                    type="number",
-                    size="2",
-                    id=INPUT_THRESHOLD,
-                    required=True,
-                    debounce=True,
-                    value=75,
-                    min=0,
-                    max=100,
+                dhtml.Table(
+                    [
+                        dhtml.Tr(
+                            [
+                                dhtml.Td(
+                                    [
+                                        dcc.Input(
+                                            type="number",
+                                            size="2",
+                                            id=INPUT_THRESHOLD,
+                                            required=True,
+                                            debounce=True,
+                                            value=75,
+                                            min=0,
+                                            max=100,
+                                        ),
+                                        dhtml.Span(
+                                            className="input-label",
+                                            children="Score Threshold",
+                                        ),
+                                    ],
+                                    style={"text-align": "left"},
+                                    colSpan=5,
+                                ),
+                                dhtml.Td(
+                                    dhtml.Iframe(
+                                        src="https://github.com/sponsors/bskinn/button",
+                                        title="Sponsor soi-app via bskinn",
+                                        height="35",
+                                        width="116",
+                                        style={
+                                            "border": 0,
+                                            "background-color": "white",
+                                        },
+                                    ),
+                                    style={"text-align": "right"},
+                                ),
+                            ]
+                        )
+                    ]
                 ),
-                dhtml.Span(className="input-label", children="Score Threshold"),
             ]
         ),
         dhtml.Div(
