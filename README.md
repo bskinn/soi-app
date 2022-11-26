@@ -32,6 +32,10 @@ Please report any problems with the app (or let me know that you like it!) on
 the [Github issue tracker][issue tracker], on Twitter ([@btskinn][twitter]), or
 on Mastodon ([@btskinn@fosstodon.org][mastodon]).
 
+If you find yourself using the app quite a bit, please consider chipping in to
+cover the hosting costs. Right now I'm set up to receive contributions via
+GitHub Sponsors...any amount greatly appreciated.
+
 Enjoy!
 
 
