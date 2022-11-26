@@ -1,3 +1,30 @@
+r"""`soi-app` *app definition module*.
+
+`soi-app` is a Dash app encapsulating the 'suggest' functionality
+of `sphobjinv` (https://sphobjinv.readthedocs.io/en/stable/cli/suggest.html)
+
+**Author**
+    Brian Skinn (brian.skinn@gmail.com)
+
+**File Created**
+    14 Nov 2022
+
+**Copyright**
+    \(c) Brian Skinn 2022
+
+**Source Repository**
+    https://github.com/bskinn/soi-app
+
+**License**
+    Content: CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/)
+
+    Code: MIT License
+
+    See LICENSE.txt for full license terms.
+
+"""
+
+
 import datetime
 import re
 import subprocess as sp
