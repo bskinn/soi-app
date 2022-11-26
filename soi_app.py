@@ -306,17 +306,20 @@ def run_suggest(
     option_str += f"t{threshold_value}"
 
     result = sp.run(
-        [
-            sys.executable,
-            "-m",
-            "sphobjinv",
-            "suggest",
-            option_str,
-            str(url_value),
-            str(search_value),
-        ],
+        " ".join(
+            [
+                sys.executable,
+                "-m",
+                "sphobjinv",
+                "suggest",
+                option_str,
+                str(url_value),
+                str(search_value),
+            ]
+        ),
         capture_output=True,
         text=True,
+        shell=True,
     )
 
     if result.returncode > 1:
