@@ -54,12 +54,12 @@ INPUT_SEARCH = "input-search"
 INPUT_THRESHOLD = "input-threshold"
 
 CHKLIST_INDEX_SCORE = "checklist-index-score"
-INCLUDE_SCORE = "Include Score"
-INCLUDE_INDEX = "Include Index"
+CHKBX_INCLUDE_SCORE = "Include Score"
+CHKBX_INCLUDE_INDEX = "Include Index"
 
 BTN_SEARCH = "button-search"
 
-RESULT_DISPLAY = "result-display"
+DIV_RESULT_DISPLAY = "div-result-display"
 SPAN_SPINNER = "span-spinner"
 
 COPYRIGHT_YEARS = (
@@ -147,8 +147,8 @@ app.layout = dhtml.Div(
         dhtml.Div(
             dcc.Checklist(
                 id=CHKLIST_INDEX_SCORE,
-                options=[INCLUDE_SCORE, INCLUDE_INDEX],
-                value=[INCLUDE_SCORE],
+                options=[CHKBX_INCLUDE_SCORE, CHKBX_INCLUDE_INDEX],
+                value=[CHKBX_INCLUDE_SCORE],
                 inline=True,
                 labelClassName="input-label",
             )
@@ -178,7 +178,7 @@ app.layout = dhtml.Div(
         ),
         dcc.Markdown(
             children="```\nLoading...\n```",
-            id=RESULT_DISPLAY,
+            id=DIV_RESULT_DISPLAY,
             className="sphobjinv-output",
         ),
         dhtml.Div(
@@ -234,7 +234,7 @@ app.layout = dhtml.Div(
 
 
 @app.callback(
-    dash.Output(RESULT_DISPLAY, "children"),
+    dash.Output(DIV_RESULT_DISPLAY, "children"),
     dash.Output(SPAN_SPINNER, "children"),
     dash.Input(BTN_SEARCH, "n_clicks"),
     dash.Input(INPUT_URL, "n_submit"),
@@ -255,10 +255,10 @@ def run_suggest(
 ):
     option_str = "-ua"
 
-    if INCLUDE_SCORE in chklist_values:
+    if CHKBX_INCLUDE_SCORE in chklist_values:
         option_str += "s"
 
-    if INCLUDE_INDEX in chklist_values:
+    if CHKBX_INCLUDE_INDEX in chklist_values:
         option_str += "i"
 
     option_str += f"t{threshold_value}"
