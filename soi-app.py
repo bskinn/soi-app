@@ -84,6 +84,14 @@ def get_source_link():
     )
 
 
+def code_ify(text, language="none"):
+    """Add Markdown backtick code block fences to the input text.
+
+    Default language type is 'none', to suppress syntax highlighting.
+    """
+    return f"```{language}\n{text}\n```"
+
+
 app.layout = dhtml.Div(
     [
         dhtml.Div(
@@ -177,7 +185,7 @@ app.layout = dhtml.Div(
             ],
         ),
         dcc.Markdown(
-            children="```\nLoading...\n```",
+            children=code_ify("Loading..."),
             id=DIV_RESULT_DISPLAY,
             className="sphobjinv-output",
         ),
@@ -276,12 +284,15 @@ def run_suggest(
     )
 
     if result.returncode > 1:
-        return ("It errored", " ")
+        return (
+            code_ify(f"Error during execution:\n\n{result.stderr}\n{result.stdout}"),
+            " ",
+        )
 
     if url_value and search_value:
-        return (f"```none\n{result.stderr}\n{result.stdout}\n```", " ")
+        return (code_ify(f"{result.stderr}\n{result.stdout}"), " ")
     else:
-        return ("```none\n(Enter search values)\n```", " ")
+        return (code_ify("(Enter search values)"), " ")
 
 
 if __name__ == "__main__":
