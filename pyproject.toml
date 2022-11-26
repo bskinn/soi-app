@@ -2,7 +2,7 @@
 line-length = 88
 include = '''
 (
-    ^/soi-app[.]py
+    ^/soi_app[.]py
 )
 '''
 exclude = '''
