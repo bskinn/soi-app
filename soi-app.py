@@ -220,7 +220,13 @@ app.layout = dhtml.Div(
                             href="https://www.pythonanywhere.com",
                             target="_blank",
                         ),
-                        " and built with ",
+                        " via a ",
+                        dhtml.A(
+                            "FreeDNS",
+                            href="https://freedns.afraid.org",
+                            target="_blank",
+                        ),
+                        " subdomain. Built with ",
                         dhtml.A(
                             "Plotly Dash",
                             href="https://plotly.com/dash/",
