@@ -47,7 +47,7 @@ app = Dash(
 )
 
 GH_URL_TEMPLATE = "https://github.com/bskinn/soi-app/tree/{}"
-VERSION = get_version(local_scheme="node-and-timestamp")
+VERSION = get_version(local_scheme="node-and-timestamp", version_scheme="post-release")
 
 INPUT_URL = "input-url"
 INPUT_SEARCH = "input-search"
@@ -78,7 +78,9 @@ def get_source_link():
 
     return dhtml.Span(
         [
-            dhtml.A(ref_id, href=GH_URL_TEMPLATE.format(ref_id)),
+            dhtml.A(
+                ["" if dirty else "v", ref_id], href=GH_URL_TEMPLATE.format(ref_id)
+            ),
             " (modified)" if dirty else "",
         ]
     )
@@ -229,7 +231,7 @@ app.layout = dhtml.Div(
                 ),
                 dhtml.Div(
                     [
-                        f"Version {VERSION}, source at ",
+                        f"Version {VERSION}, source on GitHub at ",
                         get_source_link(),
                         ".",
                     ]
