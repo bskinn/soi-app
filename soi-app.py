@@ -1,3 +1,30 @@
+r"""`soi-app` *app definition module*.
+
+`soi-app` is a Dash app encapsulating the 'suggest' functionality
+of `sphobjinv` (https://sphobjinv.readthedocs.io/en/stable/cli/suggest.html)
+
+**Author**
+    Brian Skinn (brian.skinn@gmail.com)
+
+**File Created**
+    14 Nov 2022
+
+**Copyright**
+    \(c) Brian Skinn 2022
+
+**Source Repository**
+    https://github.com/bskinn/soi-app
+
+**License**
+    Content: CC BY 4.0 (http://creativecommons.org/licenses/by/4.0/)
+
+    Code: MIT License
+
+    See LICENSE.txt for full license terms.
+
+"""
+
+
 import datetime
 import re
 import subprocess as sp
@@ -27,12 +54,12 @@ INPUT_SEARCH = "input-search"
 INPUT_THRESHOLD = "input-threshold"
 
 CHKLIST_INDEX_SCORE = "checklist-index-score"
-INCLUDE_SCORE = "Include Score"
-INCLUDE_INDEX = "Include Index"
+CHKBX_INCLUDE_SCORE = "Include Score"
+CHKBX_INCLUDE_INDEX = "Include Index"
 
 BTN_SEARCH = "button-search"
 
-RESULT_DISPLAY = "result-display"
+DIV_RESULT_DISPLAY = "div-result-display"
 SPAN_SPINNER = "span-spinner"
 
 COPYRIGHT_YEARS = (
@@ -55,6 +82,14 @@ def get_source_link():
             " (modified)" if dirty else "",
         ]
     )
+
+
+def code_ify(text, language="none"):
+    """Add Markdown backtick code block fences to the input text.
+
+    Default language type is 'none', to suppress syntax highlighting.
+    """
+    return f"```{language}\n{text}\n```"
 
 
 app.layout = dhtml.Div(
@@ -120,8 +155,8 @@ app.layout = dhtml.Div(
         dhtml.Div(
             dcc.Checklist(
                 id=CHKLIST_INDEX_SCORE,
-                options=[INCLUDE_SCORE, INCLUDE_INDEX],
-                value=[INCLUDE_SCORE],
+                options=[CHKBX_INCLUDE_SCORE, CHKBX_INCLUDE_INDEX],
+                value=[CHKBX_INCLUDE_SCORE],
                 inline=True,
                 labelClassName="input-label",
             )
@@ -150,8 +185,8 @@ app.layout = dhtml.Div(
             ],
         ),
         dcc.Markdown(
-            children="```\nLoading...\n```",
-            id=RESULT_DISPLAY,
+            children=code_ify("Loading..."),
+            id=DIV_RESULT_DISPLAY,
             className="sphobjinv-output",
         ),
         dhtml.Div(
@@ -207,7 +242,7 @@ app.layout = dhtml.Div(
 
 
 @app.callback(
-    dash.Output(RESULT_DISPLAY, "children"),
+    dash.Output(DIV_RESULT_DISPLAY, "children"),
     dash.Output(SPAN_SPINNER, "children"),
     dash.Input(BTN_SEARCH, "n_clicks"),
     dash.Input(INPUT_URL, "n_submit"),
@@ -228,10 +263,10 @@ def run_suggest(
 ):
     option_str = "-ua"
 
-    if INCLUDE_SCORE in chklist_values:
+    if CHKBX_INCLUDE_SCORE in chklist_values:
         option_str += "s"
 
-    if INCLUDE_INDEX in chklist_values:
+    if CHKBX_INCLUDE_INDEX in chklist_values:
         option_str += "i"
 
     option_str += f"t{threshold_value}"
@@ -249,12 +284,15 @@ def run_suggest(
     )
 
     if result.returncode > 1:
-        return ("It errored", " ")
+        return (
+            code_ify(f"Error during execution:\n\n{result.stderr}\n{result.stdout}"),
+            " ",
+        )
 
     if url_value and search_value:
-        return (f"```none\n{result.stderr}\n{result.stdout}\n```", " ")
+        return (code_ify(f"{result.stderr}\n{result.stdout}"), " ")
     else:
-        return ("```none\n(Enter search values)\n```", " ")
+        return (code_ify("(Enter search values)"), " ")
 
 
 if __name__ == "__main__":
