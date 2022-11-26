@@ -75,11 +75,15 @@ def get_source_link():
     if at_tag:
         ref_id = "v" + re.search("^.+(?=($|[+]d))", VERSION)[0]
     else:
+        # if dirty:
         ref_id = re.search("(?<=[+]g)[0-9a-f]+(?=($|[.]d))", VERSION)[0]
+    # else:
+    #     ref_id = re.search(r"(?<=[+]g)[0-9a-f]+$", VERSION)[0]
 
     return dhtml.Span(
         [
             dhtml.A(
+                ref_id,
                 href=GH_URL_TEMPLATE.format(ref_id),
                 target="_blank",
             ),
