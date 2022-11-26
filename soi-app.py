@@ -114,8 +114,18 @@ app.layout = dhtml.Div(
             ]
         ),
         dhtml.Div(
-            "Paste any URL from a Sphinx docset, enter the desired search term, "
-            "select your options, and go!"
+            [
+                "Paste any URL from a Sphinx docset, enter the desired search term, "
+                "select your options, and go!",
+                dhtml.Br(),
+                "See the ",
+                dhtml.A(
+                    [dhtml.Code("sphobjinv suggest"), " CLI docs"],
+                    href="https://sphobjinv.readthedocs.io/en/stable/cli/suggest.html",
+                    target="_blank",
+                ),
+                " for more information.",
+            ]
         ),
         dhtml.Div(
             children=(
@@ -143,13 +153,25 @@ app.layout = dhtml.Div(
         dhtml.Div(
             [
                 dhtml.Span(className="input-label", children="URL:"),
-                dcc.Input(type="url", size="80", id=INPUT_URL),
+                dcc.Input(
+                    type="url",
+                    size="80",
+                    id=INPUT_URL,
+                    placeholder=(
+                        "E.g., https://docs.python.org/3/library/functions.html#eval"
+                    ),
+                ),
             ]
         ),
         dhtml.Div(
             [
                 dhtml.Span(className="input-label", children="Search Term:"),
-                dcc.Input(type="text", size="45", id=INPUT_SEARCH),
+                dcc.Input(
+                    type="text",
+                    size="45",
+                    id=INPUT_SEARCH,
+                    placeholder="E.g., pathlib.Path",
+                ),
             ]
         ),
         dhtml.Div(
@@ -220,7 +242,13 @@ app.layout = dhtml.Div(
                             href="https://www.pythonanywhere.com",
                             target="_blank",
                         ),
-                        " and built with ",
+                        " via a ",
+                        dhtml.A(
+                            "FreeDNS",
+                            href="https://freedns.afraid.org",
+                            target="_blank",
+                        ),
+                        " subdomain. Built with ",
                         dhtml.A(
                             "Plotly Dash",
                             href="https://plotly.com/dash/",
