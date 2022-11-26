@@ -35,9 +35,22 @@ on Mastodon ([@btskinn@fosstodon.org][mastodon]).
 Enjoy!
 
 
+----
+
+Copyright (c) Brian Skinn 2022
+
+Website copy and docstrings are licensed under [CC BY 4.0][CC BY].
+
+App code is released under the [MIT License][MIT License]. See [`LICENSE.txt`][GH License] for full license terms.
+
+
+
+[CC BY]: http://creativecommons.org/licenses/by/4.0/
 [dash docs]: https://plotly.com/dash/
+[GH License]: https://github.com/bskinn/soi-app/blob/main/LICENSE.txt
 [issue tracker]: https://github.com/bskinn/soi-app/issues
 [mastodon]: https://fosstodon.org/@btskinn
+[MIT License]: https://opensource.org/licenses/MIT
 [pythonanywhere]: https://pythonanywhere.com
 [soi docs]: https://sphobjinv.readthedocs.io/en/stable
 [soi repo]: https://github.com/bskinn/sphobjinv
