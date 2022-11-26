@@ -28,6 +28,7 @@ of `sphobjinv` (https://sphobjinv.readthedocs.io/en/stable/cli/suggest.html)
 import datetime
 import re
 import subprocess as sp
+import sys
 
 import dash
 import dash_bootstrap_components as dbc
@@ -306,6 +307,8 @@ def run_suggest(
 
     result = sp.run(
         [
+            sys.executable,
+            "-m",
             "sphobjinv",
             "suggest",
             option_str,
