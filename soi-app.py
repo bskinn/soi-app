@@ -114,8 +114,18 @@ app.layout = dhtml.Div(
             ]
         ),
         dhtml.Div(
-            "Paste any URL from a Sphinx docset, enter the desired search term, "
-            "select your options, and go!"
+            [
+                "Paste any URL from a Sphinx docset, enter the desired search term, "
+                "select your options, and go!",
+                dhtml.Br(),
+                "See the ",
+                dhtml.A(
+                    [dhtml.Code("sphobjinv suggest"), " CLI docs"],
+                    href="https://sphobjinv.readthedocs.io/en/stable/cli/suggest.html",
+                    target="_blank",
+                ),
+                " for more information.",
+            ]
         ),
         dhtml.Div(
             children=(
