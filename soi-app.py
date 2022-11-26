@@ -143,13 +143,25 @@ app.layout = dhtml.Div(
         dhtml.Div(
             [
                 dhtml.Span(className="input-label", children="URL:"),
-                dcc.Input(type="url", size="80", id=INPUT_URL),
+                dcc.Input(
+                    type="url",
+                    size="80",
+                    id=INPUT_URL,
+                    placeholder=(
+                        "E.g., https://docs.python.org/3/library/functions.html#eval"
+                    ),
+                ),
             ]
         ),
         dhtml.Div(
             [
                 dhtml.Span(className="input-label", children="Search Term:"),
-                dcc.Input(type="text", size="45", id=INPUT_SEARCH),
+                dcc.Input(
+                    type="text",
+                    size="45",
+                    id=INPUT_SEARCH,
+                    placeholder="E.g., pathlib.Path",
+                ),
             ]
         ),
         dhtml.Div(
