@@ -70,6 +70,7 @@ COPYRIGHT_YEARS = (
 def get_source_link():
     """Construct the correct dhtml.A for the link into the source."""
     dirty = re.search("d[0-9]{8}", VERSION) is not None
+    at_tag = re.search(r"[.]post", VERSION) is None
 
     if "+g" in VERSION:
         ref_id = re.search("(?<=[+]g)[0-9a-f]+(?=($|[.d]))", VERSION)[0]
@@ -79,10 +80,12 @@ def get_source_link():
     return dhtml.Span(
         [
             dhtml.A(
-                ["" if dirty else "v", ref_id], href=GH_URL_TEMPLATE.format(ref_id)
+                ["v" if at_tag else "", ref_id],
+                href=GH_URL_TEMPLATE.format(ref_id),
+                target="_blank",
             ),
             " (modified)" if dirty else "",
-        ]
+        ],
     )
 
 
@@ -219,7 +222,7 @@ app.layout = dhtml.Div(
                 dhtml.Div(
                     [
                         (
-                            f"© Copyright {COPYRIGHT_YEARS} Brian Skinn. "
+                            f"Copyright © {COPYRIGHT_YEARS} Brian Skinn. "
                             "Site content is licensed under "
                         ),
                         dhtml.A(
