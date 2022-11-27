@@ -247,6 +247,7 @@ app.layout = dhtml.Div(
                         dhtml.A(
                             "CC BY 4.0",
                             href="http://creativecommons.org/licenses/by/4.0/",
+                            target="_blank",
                         ),
                         ".",
                     ]
