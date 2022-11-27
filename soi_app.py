@@ -28,7 +28,7 @@ of `sphobjinv` (https://sphobjinv.readthedocs.io/en/stable/cli/suggest.html)
 import datetime
 import re
 import subprocess as sp
-import sys
+from pathlib import Path
 
 import dash
 import dash_bootstrap_components as dbc
@@ -66,6 +66,24 @@ SPAN_SPINNER = "span-spinner"
 COPYRIGHT_YEARS = (
     "2022" if (YEAR := datetime.datetime.now().year) == 2022 else f"2022-{YEAR}"
 )
+
+
+def get_soi_executable():
+    """Return a Path to whichever sphobjinv executable is available.
+
+    env/bin/sphobjinv for POSIX
+    env/Scripts/sphobjinv.exe for Windows
+
+    """
+    soi_path = Path("env", "bin", "sphobjinv")
+
+    if soi_path.exists():
+        return soi_path
+    else:
+        return Path("env", "Scripts", "sphobjinv.exe")
+
+
+SOI_EXECUTABLE = get_soi_executable()
 
 
 def get_source_link():
@@ -306,17 +324,13 @@ def run_suggest(
     option_str += f"t{threshold_value}"
 
     result = sp.run(
-        " ".join(
-            [
-                sys.executable,
-                "-m",
-                "sphobjinv",
-                "suggest",
-                option_str,
-                str(url_value),
-                str(search_value),
-            ]
-        ),
+        [
+            SOI_EXECUTABLE,
+            "suggest",
+            option_str,
+            str(url_value),
+            str(search_value),
+        ],
         capture_output=True,
         text=True,
         shell=True,
