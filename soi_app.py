@@ -276,7 +276,7 @@ app.layout = dhtml.Div(
                         " subdomain. Built with ",
                         dhtml.A(
                             "Plotly Dash",
-                            href="https://plotly.com/dash/",
+                            href="https://dash.plotly.com/",
                             target="_blank",
                         ),
                         f" v{dash.__version__} and ",
