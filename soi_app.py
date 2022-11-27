@@ -103,7 +103,7 @@ def get_source_link():
                 href=GH_URL_TEMPLATE.format(ref_id),
                 target="_blank",
             ),
-            " (modified)" if dirty else "",
+            " (locally modified)" if dirty else "",
         ],
     )
 
@@ -333,7 +333,6 @@ def run_suggest(
         ],
         capture_output=True,
         text=True,
-        shell=True,
     )
 
     if result.returncode > 1:
