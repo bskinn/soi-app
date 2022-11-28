@@ -184,6 +184,7 @@ app.layout = dhtml.Div(
                     placeholder=(
                         "E.g., https://docs.python.org/3/library/functions.html#eval"
                     ),
+                    debounce=True,
                 ),
             ]
         ),
@@ -195,6 +196,7 @@ app.layout = dhtml.Div(
                     size="45",
                     id=INPUT_SEARCH,
                     placeholder="E.g., pathlib.Path",
+                    debounce=True,
                 ),
             ]
         ),
