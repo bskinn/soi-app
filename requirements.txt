@@ -22,4 +22,4 @@ sphobjinv==2.3
 tenacity==8.1.0
 tomli==2.0.1
 typing-extensions==4.4.0
-werkzeug==2.2.2
+werkzeug==2.2.3
