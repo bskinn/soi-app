@@ -60,3 +60,4 @@ App code is released under the [MIT License][MIT License]. See [`LICENSE.txt`][G
 [soi repo]: https://github.com/bskinn/sphobjinv
 [twitter]: https://twitter.com/btskinn
 [wooey docs]: https://wooey.readthedocs.io/en/latest/
+[invisible change for testing]: https://google.com
